@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using aluraflix_backend.Data;
 
@@ -11,9 +12,10 @@ using aluraflix_backend.Data;
 namespace aluraflix_backend.Migrations
 {
     [DbContext(typeof(AluraflixContext))]
-    partial class AluraflixContextModelSnapshot : ModelSnapshot
+    [Migration("20231115001727_TirarRelacionamento")]
+    partial class TirarRelacionamento
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,11 +26,11 @@ namespace aluraflix_backend.Migrations
 
             modelBuilder.Entity("aluraflix_backend.Models.Categoria", b =>
                 {
-                    b.Property<int>("CategoriaID")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoriaID"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
                     b.Property<string>("Cor")
                         .IsRequired()
@@ -38,14 +40,14 @@ namespace aluraflix_backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("CategoriaID");
+                    b.HasKey("ID");
 
                     b.ToTable("Categorias");
 
                     b.HasData(
                         new
                         {
-                            CategoriaID = 1,
+                            ID = 1,
                             Cor = "#8c8c8c",
                             Titulo = "Livre"
                         });
@@ -83,11 +85,9 @@ namespace aluraflix_backend.Migrations
 
             modelBuilder.Entity("aluraflix_backend.Models.Video", b =>
                 {
-                    b.HasOne("aluraflix_backend.Models.Categoria", "Categoria")
+                    b.HasOne("aluraflix_backend.Models.Categoria", null)
                         .WithMany("Videos")
                         .HasForeignKey("CategoriaID");
-
-                    b.Navigation("Categoria");
                 });
 
             modelBuilder.Entity("aluraflix_backend.Models.Categoria", b =>

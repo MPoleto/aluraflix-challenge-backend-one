@@ -44,6 +44,19 @@ namespace aluraflix_backend.Controllers
             return Ok(videoDTO);
         }
 
+        [HttpGet("titulo")]
+        public IActionResult VideosPorTitulo([FromQuery] string titulo)
+        {
+            var videos = _dao.BuscarVideosPorTitulo(titulo);
+
+            if (!videos.Any())
+                return NotFound(new { msg = $"Nenhum vídeo encontrado."});
+
+            var videosDTO = _mapper.Map<List<ReadVideoDTO>>(videos);
+
+            return Ok(videosDTO);
+        }
+
         [HttpPost]
         public IActionResult CriarVideo([FromBody] CreateVideoDTO dto)
         {

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using aluraflix_backend.Data;
 
@@ -11,9 +12,10 @@ using aluraflix_backend.Data;
 namespace aluraflix_backend.Migrations
 {
     [DbContext(typeof(AluraflixContext))]
-    partial class AluraflixContextModelSnapshot : ModelSnapshot
+    [Migration("20231116221718_AddRelacionamento")]
+    partial class AddRelacionamento
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

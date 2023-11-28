@@ -1,4 +1,7 @@
 using aluraflix_backend.Data;
+using aluraflix_backend.Data.DTOs;
+using aluraflix_backend.Models;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,14 +10,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 var dbConnection = builder.Configuration.GetConnectionString("VideoConnection");
 
-builder.Services.AddDbContext<AluraflixContext>(options => options.UseSqlServer(dbConnection));
+builder.Services.AddDbContext<AluraflixContext>(options => options
+    .UseSqlServer(dbConnection));
 
 //builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<VideoDAO>();
-
-// builder.Services.AddRouting(options => options.LowercaseUrls = true);
+builder.Services.AddScoped<CategoriaDAO>();
 
 builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddEndpointsApiExplorer();
@@ -36,3 +39,17 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+// {
+//     "titulo": "Message in the wind",
+//     "descricao": "Música do anime Carole and Tuesday",
+//     "url": "https://www.youtube.com/watch?v=KDrX-gOiCV4&list=PLPw4vQ0H5dTTwhUDJ5gDMqCa5aDGESei7&index=17&pp=iAQB8AUB"
+// }
+
+// [
+//     {
+//         "op": "replace",
+//         "path": "/descricao",
+//         "value": "Carole and Tuesday - trilha sonora"
+//     }
+// ]

@@ -8,7 +8,8 @@ namespace aluraflix_backend.Profiles
     {
         public VideoProfile()
         {
-            CreateMap<Video, ReadVideoDTO>();
+            CreateMap<Video, ReadVideoDTO>()
+                .ForMember(dest => dest.CategoriaID, opt => opt.NullSubstitute(1));
 
             CreateMap<CreateVideoDTO, Video>()
                 .ForMember(dest => dest.ID, opt => opt.Ignore());
