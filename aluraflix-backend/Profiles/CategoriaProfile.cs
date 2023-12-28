@@ -2,14 +2,12 @@ using aluraflix_backend.Data.DTOs;
 using aluraflix_backend.Models;
 using AutoMapper;
 
-namespace aluraflix_backend.Profiles
-{
+namespace aluraflix_backend.Profiles;
     public class CategoriaProfile : Profile
     {
         public CategoriaProfile()
         {
-            CreateMap<Categoria, ReadCategoriaDTO>()
-                .ForMember(dest => dest.Videos, opt => opt.MapFrom(categoria => categoria.Videos));
+            CreateMap<Categoria, ReadCategoriaDTO>();
 
             CreateMap<CreateCategoriaDTO, Categoria>()
                 .ForMember(dest => dest.CategoriaID, opt => opt.Ignore());
@@ -20,4 +18,3 @@ namespace aluraflix_backend.Profiles
             CreateMap<Categoria, UpdateCategoriaDTO>();
         }
     }
-}

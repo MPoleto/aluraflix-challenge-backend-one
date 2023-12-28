@@ -1,11 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace aluraflix_backend.Data.DTOs
-{
+namespace aluraflix_backend.Data.DTOs;
     public class UpdateCategoriaDTO
     {
         [Required(ErrorMessage = "Campo obrigatório")]
-        [StringLength(50, ErrorMessage = "O titulo da categoria precisa ter entre 3 e 50 caracteres", MinimumLength = 3)]
+        [StringLength(50, ErrorMessage = "O titulo da categoria precisa ter entre 3 e 50 caracteres", MinimumLength = 2)]
         public string Titulo { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório")]
@@ -13,4 +12,3 @@ namespace aluraflix_backend.Data.DTOs
         [StringLength(7, ErrorMessage = "A cor da categoria precisa ter entre 4 e 7 caracteres", MinimumLength = 4)]
         public string Cor { get; set; }
     }
-}

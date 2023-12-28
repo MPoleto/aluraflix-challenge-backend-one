@@ -1,5 +1,4 @@
-namespace aluraflix_backend.Models
-{
+namespace aluraflix_backend.Models;
     public class Categoria
     {
         public int CategoriaID { get; set; }
@@ -7,4 +6,3 @@ namespace aluraflix_backend.Models
         public string Cor { get; set; }
         public virtual ICollection<Video> Videos { get; set; }
     }
-}

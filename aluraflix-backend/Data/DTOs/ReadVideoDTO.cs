@@ -1,5 +1,4 @@
-namespace aluraflix_backend.Data.DTOs
-{
+namespace aluraflix_backend.Data.DTOs;
     public class ReadVideoDTO
     {
         public int ID { get; set; }
@@ -8,4 +7,3 @@ namespace aluraflix_backend.Data.DTOs
         public string Url { get; set; }
         public int CategoriaID { get; set; }
     }
-}

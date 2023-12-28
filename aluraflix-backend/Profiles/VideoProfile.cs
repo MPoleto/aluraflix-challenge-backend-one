@@ -2,8 +2,7 @@ using aluraflix_backend.Data.DTOs;
 using aluraflix_backend.Models;
 using AutoMapper;
 
-namespace aluraflix_backend.Profiles
-{
+namespace aluraflix_backend.Profiles;
     public class VideoProfile : Profile
     {
         public VideoProfile()
@@ -20,4 +19,3 @@ namespace aluraflix_backend.Profiles
             CreateMap<Video, UpdateVideoDTO>();
         }
     }
-}

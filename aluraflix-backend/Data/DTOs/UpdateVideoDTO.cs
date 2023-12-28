@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace aluraflix_backend.Data.DTOs
-{
+namespace aluraflix_backend.Data.DTOs;
     public class UpdateVideoDTO
     {
         [Required(ErrorMessage = "O campo 'Titulo' é obrigatório")]
@@ -18,4 +17,3 @@ namespace aluraflix_backend.Data.DTOs
 
         public int CategoriaID { get; set; }
     }
-}

@@ -1,7 +1,4 @@
-using System.Text.Json.Serialization;
-
-namespace aluraflix_backend.Data.DTOs
-{
+namespace aluraflix_backend.Data.DTOs;
     public class ReadCategoriaDTO
     {
         public int CategoriaID { get; set; }
@@ -9,4 +6,3 @@ namespace aluraflix_backend.Data.DTOs
         public string Cor { get; set; }
         public ICollection<ReadVideoDTO> Videos { get; set; }
     }
-}

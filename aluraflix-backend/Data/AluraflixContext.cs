@@ -1,8 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using aluraflix_backend.Models;
 
-namespace aluraflix_backend.Data
-{
+namespace aluraflix_backend.Data;
     public class AluraflixContext : DbContext
     {
         public AluraflixContext(DbContextOptions<AluraflixContext> options) : base(options)
@@ -25,8 +24,8 @@ namespace aluraflix_backend.Data
             builder.Entity<Video>()
                 .HasOne(p => p.Categoria)
                 .WithMany(categoria => categoria.Videos)
-                .HasForeignKey(p => p.CategoriaID)
-                .IsRequired(false);
+                .HasForeignKey(p => p.CategoriaID).IsRequired(false)
+                .OnDelete(DeleteBehavior.SetNull);
             
             builder.Entity<Categoria>()
                 .HasKey(p => p.CategoriaID);
@@ -37,8 +36,6 @@ namespace aluraflix_backend.Data
                 .ValueGeneratedOnAdd();
 
             builder.Entity<Categoria>()
-                .HasData( new { CategoriaID = 1, Titulo = "Livre", Cor = "#8c8c8c"});
-            
+                .HasData( new { CategoriaID = 1, Titulo = "Livre", Cor = "#8c8c8c"}); 
         }
     }
-}

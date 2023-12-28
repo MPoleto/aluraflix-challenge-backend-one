@@ -1,60 +1,53 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-
-using aluraflix_backend.Data;
-using aluraflix_backend.Data.DTOs;
-using aluraflix_backend.Models;
 using Microsoft.AspNetCore.JsonPatch;
 
-namespace aluraflix_backend.Controllers
-{
+using aluraflix_backend.Data.DTOs;
+using aluraflix_backend.Services.IServices;
+
+namespace aluraflix_backend.Controllers;
+
     [ApiController]
     [Route("[controller]")]
     public class CategoriasController : ControllerBase
     {
-        private readonly CategoriaDAO _dao;
-        private readonly IMapper _mapper;
+        private readonly ICategoriaService _service;
 
-        public CategoriasController(CategoriaDAO dao, IMapper mapper)
+        public CategoriasController(ICategoriaService service)
         {
-            _dao = dao;
-            _mapper = mapper;
+            _service = service;
         }
 
         [HttpGet]
-        public IActionResult TodasCategorias()
+        public IActionResult TodasCategorias([FromQuery] int page = 1)
         {
-            var categorias = _dao.BuscarCategorias();
+            var categoriasDTO = _service.ExibirCategorias(page);
 
-            var resultado = _mapper.Map<List<ReadCategoriaDTO>>(categorias);
+            if (!categoriasDTO.Any())
+                return NotFound(new { msg = $"Não há categorias para exibir."});
 
-            return Ok(resultado);
-        }
-
-        [HttpGet("{id}")]
-        public IActionResult CategoriaPorId(int id)
-        {
-            var categoria = _dao.BuscarCategoriaPorId(id);
-
-            if (categoria is null)
-                return NotFound(new { msg = $"A categoria com id {id} não foi encontrada."});
-
-            var categoriaDTO = _mapper.Map<ReadCategoriaDTO>(categoria);
-
-            return Ok(categoriaDTO);
+            return Ok(categoriasDTO);
         }
 
         [HttpGet("{id}/videos")]
         public IActionResult VideosPorCategoriaId(int id)
         {
-            var videos = _dao.BuscarVideosPorCategoriaId(id);
+            var videosPorCategoriaDTO = _service.ExibirVideosPorCategoriaId(id);
 
-            if (!videos.Any())
+            if (!videosPorCategoriaDTO.Videos.Any())
                 return NotFound(new { msg = $"Não há vídeos na categoria com id {id}."});
 
-            var videosPorCategoria = _mapper.Map<List<ReadVideoDTO>>(videos);
+            return Ok(videosPorCategoriaDTO);
+        }
 
-            return Ok(videosPorCategoria);
+        [HttpGet("{id}")]
+        public IActionResult CategoriaPorId(int id)
+        {
+            var categoriaDTO = _service.ExibirCategoriaPorId(id);
+
+            if (categoriaDTO is null)
+                return NotFound(new { msg = $"A categoria com id {id} não foi encontrada."});
+
+            return Ok(categoriaDTO);
         }
 
         [HttpPost]
@@ -63,27 +56,18 @@ namespace aluraflix_backend.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var categoria = _mapper.Map<CreateCategoriaDTO, Categoria>(dto);
-
-            _dao.AdicionarCategoria(categoria);
-
-            var categoriaDTO = _mapper.Map<ReadCategoriaDTO>(categoria);
+            var categoriaDTO = _service.CriarCategoria(dto);
             
-            return CreatedAtAction(nameof(CategoriaPorId), new {id = categoria.CategoriaID}, categoriaDTO);
+            return CreatedAtAction(nameof(CategoriaPorId), new {id = categoriaDTO.CategoriaID}, categoriaDTO);
         }
 
         [HttpPut("{id}")]
         public IActionResult AtualizarCategoria(int id, [FromBody] UpdateCategoriaDTO dto)
         {
-            var categoria = _dao.BuscarCategoriaPorId(id);
+            var categoriaDTO = _service.AtualizarCategoria(id, dto);
 
-            if (categoria is null)
+            if (categoriaDTO is null)
                 return NotFound(new { msg = $"A categoria com id {id} não foi encontrada."});
-
-            _mapper.Map(dto, categoria);
-            _dao.AtualizarCategoria(categoria);
-
-            var categoriaDTO = _mapper.Map<ReadCategoriaDTO>(categoria);
 
             return Ok(categoriaDTO);
         }
@@ -91,12 +75,7 @@ namespace aluraflix_backend.Controllers
         [HttpPatch("{id}")]
         public IActionResult AtualizarCategoriaParcial(int id, JsonPatchDocument<UpdateCategoriaDTO> patch)
         {
-            var categoria = _dao.BuscarCategoriaPorId(id);
-
-            if (categoria is null)
-                return NotFound(new { msg = $"A categoria com id {id} não foi encontrada."});
-
-            var categoriaParaAtualizar = _mapper.Map<UpdateCategoriaDTO>(categoria);
+            var categoriaParaAtualizar = _service.BuscarCategoriaParaAtualizarParcial(id);
 
             patch.ApplyTo(categoriaParaAtualizar, ModelState);
 
@@ -104,10 +83,8 @@ namespace aluraflix_backend.Controllers
             {
                 return ValidationProblem(ModelState);
             }
-            _mapper.Map(categoriaParaAtualizar, categoria);
-            _dao.AtualizarCategoria(categoria);
             
-            var categoriaDTO = _mapper.Map<ReadCategoriaDTO>(categoria);
+            var categoriaDTO = _service.AtualizarCategoria(id, categoriaParaAtualizar);
 
             return Ok(categoriaDTO);
         }
@@ -115,14 +92,8 @@ namespace aluraflix_backend.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeletarCategoria(int id)
         {
-            var categoria = _dao.BuscarCategoriaPorId(id);
-
-            if (categoria is null)
-                return NotFound(new { msg = $"A categoria com id {id} não foi encontrada."});
-
-            _dao.DeletarCategoria(categoria);
+            _service.DeletarCategoria(id);
 
             return NoContent();
         }
     }
-}

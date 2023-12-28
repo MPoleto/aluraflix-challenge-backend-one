@@ -4,7 +4,7 @@
 
 namespace aluraflix_backend.Migrations
 {
-    public partial class TirarRelacionamento : Migration
+    public partial class DeleteSetNull : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -25,7 +25,8 @@ namespace aluraflix_backend.Migrations
                 table: "Videos",
                 column: "CategoriaID",
                 principalTable: "Categorias",
-                principalColumn: "ID");
+                principalColumn: "CategoriaID",
+                onDelete: ReferentialAction.SetNull);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -49,8 +50,8 @@ namespace aluraflix_backend.Migrations
                 table: "Videos",
                 column: "CategoriaID",
                 principalTable: "Categorias",
-                principalColumn: "ID",
-                onDelete: ReferentialAction.Cascade);
+                principalColumn: "CategoriaID",
+                onDelete: ReferentialAction.Restrict);
         }
     }
 }

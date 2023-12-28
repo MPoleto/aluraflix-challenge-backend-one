@@ -1,89 +1,87 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-
-using aluraflix_backend.Data;
-using aluraflix_backend.Data.DTOs;
-using aluraflix_backend.Models;
 using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Authorization;
 
-namespace aluraflix_backend.Controllers
-{
+using aluraflix_backend.Data.DTOs;
+using aluraflix_backend.Services.IServices;
+
+namespace aluraflix_backend.Controllers;
+
     [ApiController]
     [Route("[controller]")]
     public class VideosController : ControllerBase
     {
-        private readonly VideoDAO _dao;
-        private readonly IMapper _mapper;
+        private readonly IVideoService _service;
 
-        public VideosController(VideoDAO dao, IMapper mapper)
+        public VideosController(IVideoService service)
         {
-            _dao = dao;
-            _mapper = mapper;
+            _service = service;
         }
 
         [HttpGet]
-        public IActionResult TodosVideos()
+        // [Authorize]
+        public IActionResult TodosVideos([FromQuery] int page = 1)
         {
-            var videos = _dao.BuscarVideos();
+            var videosDTO = _service.ExibirVideos(page);
 
-            var resultado = _mapper.Map<List<ReadVideoDTO>>(videos);
+            if (!videosDTO.Any())
+                return NotFound(new { msg = $"Não há vídeos para exibir."});
 
-            return Ok(resultado);
+            return Ok(videosDTO);
         }
 
-        [HttpGet("{id}")]
-        public IActionResult VideoPorId(int id)
+        [HttpGet("free")]
+        // [AllowAnonymous]
+        public IActionResult PrimeiraPaginaDeVideos()
         {
-            var video = _dao.BuscarVideoPorId(id);
+            var videosDTO = _service.ExibirVideos(1);
 
-            if (video is null)
-                return NotFound(new { msg = $"O vídeo com id {id} não foi encontrado."});
+            if (!videosDTO.Any())
+                return NotFound(new { msg = $"Não há vídeos para exibir."});
 
-            var videoDTO = _mapper.Map<ReadVideoDTO>(video);
-
-            return Ok(videoDTO);
+            return Ok(videosDTO);
         }
 
         [HttpGet("titulo")]
         public IActionResult VideosPorTitulo([FromQuery] string titulo)
         {
-            var videos = _dao.BuscarVideosPorTitulo(titulo);
+            var videosDTO = _service.ExibirPorTitulo(titulo);
 
-            if (!videos.Any())
+            if (!videosDTO.Any())
                 return NotFound(new { msg = $"Nenhum vídeo encontrado."});
-
-            var videosDTO = _mapper.Map<List<ReadVideoDTO>>(videos);
 
             return Ok(videosDTO);
         }
 
+        [HttpGet("{id}")]
+        public IActionResult VideoPorId(int id)
+        {
+            var videoDTO = _service.ExibirVideoPorId(id);
+
+            if (videoDTO is null)
+                return NotFound(new { msg = $"O vídeo com id {id} não foi encontrado."});
+
+            return Ok(videoDTO);
+        }
+
         [HttpPost]
-        public IActionResult CriarVideo([FromBody] CreateVideoDTO dto)
+        public IActionResult CriarVideo([FromBody] CreateVideoDTO videoDTO)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var video = _mapper.Map<CreateVideoDTO, Video>(dto);
-
-            _dao.AdicionarVideo(video);
-
-            var videoDTO = _mapper.Map<ReadVideoDTO>(video);
+            var videoCriado = _service.CriarVideo(videoDTO);
             
-            return CreatedAtAction(nameof(VideoPorId), new {id = video.ID}, videoDTO);
+            return Created("Criado com sucesso", videoCriado); //CreatedAtAction(nameof(VideoPorId), new {id = videoCriado.ID}, videoCriado);
         }
 
         [HttpPut("{id}")]
         public IActionResult AtualizarVideo(int id, [FromBody] UpdateVideoDTO dto)
         {
-            var video = _dao.BuscarVideoPorId(id);
+            var videoDTO = _service.AtualizarVideo(id, dto);
 
-            if (video is null)
+            if (videoDTO is null)
                 return NotFound(new { msg = $"O vídeo com id {id} não foi encontrado."});
-
-            _mapper.Map(dto, video);
-            _dao.AtualizarVideo(video);
-
-            var videoDTO = _mapper.Map<ReadVideoDTO>(video);
 
             return Ok(videoDTO);
         }
@@ -91,12 +89,7 @@ namespace aluraflix_backend.Controllers
         [HttpPatch("{id}")]
         public IActionResult AtualizarVideoParcial(int id, JsonPatchDocument<UpdateVideoDTO> patch)
         {
-            var video = _dao.BuscarVideoPorId(id);
-
-            if (video is null)
-                return NotFound(new { msg = $"O vídeo com id {id} não foi encontrado."});
-
-            var videoParaAtualizar = _mapper.Map<UpdateVideoDTO>(video);
+            var videoParaAtualizar = _service.BuscarVideoParaAtualizarParcial(id);
 
             patch.ApplyTo(videoParaAtualizar, ModelState);
 
@@ -104,10 +97,8 @@ namespace aluraflix_backend.Controllers
             {
                 return ValidationProblem(ModelState);
             }
-            _mapper.Map(videoParaAtualizar, video);
-            _dao.AtualizarVideo(video);
             
-            var videoDTO = _mapper.Map<ReadVideoDTO>(video);
+            var videoDTO = _service.AtualizarVideo(id, videoParaAtualizar);
 
             return Ok(videoDTO);
         }
@@ -115,14 +106,8 @@ namespace aluraflix_backend.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeletarVideo(int id)
         {
-            var video = _dao.BuscarVideoPorId(id);
-
-            if (video is null)
-                return NotFound(new { msg = $"O vídeo com id {id} não foi encontrado."});
-
-            _dao.DeletarVideo(video);
+            _service.DeletarVideo(id);
 
             return NoContent();
         }
     }
-}

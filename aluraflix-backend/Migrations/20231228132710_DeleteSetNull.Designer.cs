@@ -12,8 +12,8 @@ using aluraflix_backend.Data;
 namespace aluraflix_backend.Migrations
 {
     [DbContext(typeof(AluraflixContext))]
-    [Migration("20231116221718_AddRelacionamento")]
-    partial class AddRelacionamento
+    [Migration("20231228132710_DeleteSetNull")]
+    partial class DeleteSetNull
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -87,7 +87,8 @@ namespace aluraflix_backend.Migrations
                 {
                     b.HasOne("aluraflix_backend.Models.Categoria", "Categoria")
                         .WithMany("Videos")
-                        .HasForeignKey("CategoriaID");
+                        .HasForeignKey("CategoriaID")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Categoria");
                 });

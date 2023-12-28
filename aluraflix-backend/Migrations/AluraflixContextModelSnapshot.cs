@@ -85,7 +85,8 @@ namespace aluraflix_backend.Migrations
                 {
                     b.HasOne("aluraflix_backend.Models.Categoria", "Categoria")
                         .WithMany("Videos")
-                        .HasForeignKey("CategoriaID");
+                        .HasForeignKey("CategoriaID")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Categoria");
                 });
