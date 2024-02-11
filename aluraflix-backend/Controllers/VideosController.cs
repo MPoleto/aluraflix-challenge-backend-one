@@ -9,6 +9,7 @@ namespace aluraflix_backend.Controllers;
 
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class VideosController : ControllerBase
     {
         private readonly IVideoService _service;
@@ -19,7 +20,6 @@ namespace aluraflix_backend.Controllers;
         }
 
         [HttpGet]
-        // [Authorize]
         public IActionResult TodosVideos([FromQuery] int page = 1)
         {
             var videosDTO = _service.ExibirVideos(page);
@@ -31,7 +31,7 @@ namespace aluraflix_backend.Controllers;
         }
 
         [HttpGet("free")]
-        // [AllowAnonymous]
+        [AllowAnonymous]
         public IActionResult PrimeiraPaginaDeVideos()
         {
             var videosDTO = _service.ExibirVideos(1);
@@ -72,7 +72,7 @@ namespace aluraflix_backend.Controllers;
 
             var videoCriado = _service.CriarVideo(videoDTO);
             
-            return Created("Criado com sucesso", videoCriado); //CreatedAtAction(nameof(VideoPorId), new {id = videoCriado.ID}, videoCriado);
+            return Created("Criado com sucesso", videoCriado);
         }
 
         [HttpPut("{id}")]

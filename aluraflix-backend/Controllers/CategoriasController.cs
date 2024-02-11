@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.JsonPatch;
 
 using aluraflix_backend.Data.DTOs;
 using aluraflix_backend.Services.IServices;
+using Microsoft.AspNetCore.Authorization;
 
 namespace aluraflix_backend.Controllers;
 
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class CategoriasController : ControllerBase
     {
         private readonly ICategoriaService _service;
