@@ -3,7 +3,6 @@ using System.Security.Claims;
 using System.Text;
 using aluraflix_backend.Models;
 using aluraflix_backend.Services.IServices;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace aluraflix_backend.Services

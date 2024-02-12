@@ -1,0 +1,145 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>aluraflix-backend</name>
+    </assembly>
+    <members>
+        <member name="T:aluraflix_backend.Controllers.CategoriasController">
+            <summary>
+            Rota responsável pelas requisições referente às categorias dos vídeos
+            </summary>
+        </member>
+        <member name="M:aluraflix_backend.Controllers.CategoriasController.TodasCategorias(System.Int32)">
+            <summary>
+            Retorna as categorias criadas. 
+            </summary>
+            <param name="page"></param>
+            <returns>5 categorias por página</returns>
+        </member>
+        <member name="M:aluraflix_backend.Controllers.CategoriasController.VideosPorCategoriaId(System.Int32)">
+            <summary>
+            Exibe todos os vídeos adicionados a categoria com determinado ID
+            </summary>
+            <param name="id"></param>
+            <returns>Lista de vídeos, quando há vídeos na categoria</returns>
+        </member>
+        <member name="M:aluraflix_backend.Controllers.CategoriasController.CategoriaPorId(System.Int32)">
+            <summary>
+            Exibe informações de uma categoria
+            </summary>
+            <param name="id"></param>
+            <returns>As informações da categoria do ID buscado</returns>
+        </member>
+        <member name="M:aluraflix_backend.Controllers.CategoriasController.CriarCategoria(aluraflix_backend.Data.DTOs.CreateCategoriaDTO)">
+            <summary>
+            Cria uma categoria
+            </summary>
+            <param name="dto"></param>
+            <returns>Exibe a categoria criada</returns>
+        </member>
+        <member name="M:aluraflix_backend.Controllers.CategoriasController.AtualizarCategoria(System.Int32,aluraflix_backend.Data.DTOs.UpdateCategoriaDTO)">
+            <summary>
+            Atualizar todas as informações da categoria
+            </summary>
+            <param name="id"></param>
+            <param name="dto"></param>
+            <returns>Exibe as informações recém atualizadas</returns>
+        </member>
+        <member name="M:aluraflix_backend.Controllers.CategoriasController.AtualizarCategoriaParcial(System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{aluraflix_backend.Data.DTOs.UpdateCategoriaDTO})">
+            <summary>
+            Atualização parcial de uma categoria
+            </summary>
+            <param name="id"></param>
+            <param name="patch"></param>
+            <returns>Exibe as informações da categoria</returns>
+        </member>
+        <member name="M:aluraflix_backend.Controllers.CategoriasController.DeletarCategoria(System.Int32)">
+            <summary>
+            Deleta uma categoria
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:aluraflix_backend.Controllers.UsuarioController">
+            <summary>
+            Rota responsável pelas requisições referente aos usuários
+            </summary>
+        </member>
+        <member name="M:aluraflix_backend.Controllers.UsuarioController.CadastraUsuario(aluraflix_backend.Data.DTOs.CreateUsuarioDTO)">
+            <summary>
+            Cadastro de um novo usuário
+            </summary>
+            <param name="usuarioDTO"></param>
+            <returns>Exibe mensagem de confimação do cadastro</returns>
+        </member>
+        <member name="M:aluraflix_backend.Controllers.UsuarioController.Login(aluraflix_backend.Data.DTOs.LoginUsuarioDTO)">
+            <summary>
+            Autenticar o usuário
+            </summary>
+            <param name="loginDTO"></param>
+            <returns>Exibe token para autenticação</returns>
+        </member>
+        <member name="T:aluraflix_backend.Controllers.VideosController">
+            <summary>
+            Rota responsável pelas requisições referente aos vídeos
+            </summary>
+        </member>
+        <member name="M:aluraflix_backend.Controllers.VideosController.TodosVideos(System.Int32)">
+            <summary>
+            Exibe vídeos cadastrados
+            </summary>
+            <param name="page"></param>
+            <returns>Retorna 5 vídeos por página</returns>
+        </member>
+        <member name="M:aluraflix_backend.Controllers.VideosController.PrimeiraPaginaDeVideos">
+            <summary>
+            Exibe vídeos sem ser necessário a autenticação
+            </summary>
+            <returns>Retorna os 5 primeiros vídeos cadastrados</returns>
+        </member>
+        <member name="M:aluraflix_backend.Controllers.VideosController.VideosPorTitulo(System.String)">
+            <summary>
+            Procura os vídeos que possuem a palavra buscada no título
+            </summary>
+            <param name="titulo"></param>
+            <returns>Se existir, exibe os vídeos com a palavra buscada no título</returns>
+        </member>
+        <member name="M:aluraflix_backend.Controllers.VideosController.VideoPorId(System.Int32)">
+            <summary>
+            Exibe o vídeo com determinado ID
+            </summary>
+            <param name="id"></param>
+            <returns>Caso exista o ID, retorna as informações do vídeo</returns>
+        </member>
+        <member name="M:aluraflix_backend.Controllers.VideosController.CriarVideo(aluraflix_backend.Data.DTOs.CreateVideoDTO)">
+            <summary>
+            Cadastra um novo vídeo
+            </summary>
+            <param name="videoDTO"></param>
+            <returns>Retorna as informações do vídeo cadastrado</returns>
+        </member>
+        <member name="M:aluraflix_backend.Controllers.VideosController.AtualizarVideo(System.Int32,aluraflix_backend.Data.DTOs.UpdateVideoDTO)">
+            <summary>
+            Atualiza as informações do vídeo
+            </summary>
+            <param name="id"></param>
+            <param name="dto"></param>
+            <returns>Exibe as informações recém atualizadas</returns>
+        </member>
+        <member name="M:aluraflix_backend.Controllers.VideosController.AtualizarVideoParcial(System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{aluraflix_backend.Data.DTOs.UpdateVideoDTO})">
+            <summary>
+            Atualização parcial do vídeo
+            </summary>
+            <param name="id"></param>
+            <param name="patch"></param>
+            <returns>Exibe as informações do vídeo atualizado</returns>
+        </member>
+        <member name="M:aluraflix_backend.Controllers.VideosController.DeletarVideo(System.Int32)">
+            <summary>
+            Detela vídeo cadastrado
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

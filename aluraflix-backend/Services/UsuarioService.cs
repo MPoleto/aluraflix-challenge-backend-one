@@ -1,4 +1,3 @@
-using System;
 using aluraflix_backend.Data.DTOs;
 using aluraflix_backend.Models;
 using aluraflix_backend.Services.IServices;
