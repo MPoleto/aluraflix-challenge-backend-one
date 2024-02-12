@@ -7,7 +7,7 @@ API REST para cadastro de vídeos, separados por categoria e que seja necessári
 | -------------  | --- |
 | :sparkles: Nome        | **Aluraflix API**
 | :label: Tecnologias | C#, .NET 6, SQL Server
-| :rocket: URL         | 
+| :rocket: URL         | https://github.com/MPoleto/aluraflix-challenge-backend-one.git
 | :fire: Desafio     | https://www.alura.com.br/challenges/back-end
 
   
