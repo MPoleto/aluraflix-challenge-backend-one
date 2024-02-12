@@ -5,13 +5,13 @@ API REST para cadastro de vídeos, separados por categoria e que seja necessári
 
 | :placard: Vitrine.Dev |     |
 | -------------  | --- |
-| :sparkles: Nome        | **API Aluraflix**
+| :sparkles: Nome        | **Aluraflix API**
 | :label: Tecnologias | C#, .NET 6, SQL Server
-| :rocket: URL         | https://url-deploy.com.br
+| :rocket: URL         | 
 | :fire: Desafio     | https://www.alura.com.br/challenges/back-end
 
-<!-- Inserir imagem com a #vitrinedev ao final do link -->
-![](https://via.placeholder.com/1200x500.png?text=imagem+lindona+do+meu+projeto#vitrinedev)
+  
+![](./aluraflix-backend/aluraflix-swagger.gif#vitrinedev)
 
 ## Detalhes do projeto
 
@@ -34,18 +34,24 @@ API REST para cadastro de vídeos, separados por categoria e que seja necessári
 - ASP.NET Core Identity
 - JWT Bearer token
 - Postman - para testar as requisições da API
+- Swagger
 
-> ### Regras de negócio
->
-> Todos os campos do vídeo devem ser obrigatórios e validados.
+### Regras de negócio
 
+- Todos os campos do vídeo devem ser obrigatórios e validados.  
+- Uma nova categoria não pode ser criada caso tenha algum campo vazio. Caso em branco, informar: `O campo é obrigatório`.  
+- A categoria com ID = 1 deve se chamar `LIVRE` e caso ela não seja especificada na criação do vídeo, vamos atribuir o ID = 1. 
+- Adicione nas requisições GET em ambos os modelos, tanto vídeos como categorias uma paginação que retorne 5 itens por página: ```GET /videos/?page=2```  
+- Criar endpoint com um número fixo de filmes disponível, sem a necessidade de autenticação: ```GET /videos/free```  
+
+### Desenvolvimento
 #### Semana 1
 - Criação do banco de dados.
     - Classe `Context` para fazer a conexão com o banco de dados e criação da tabela `Videos`
     - Classe `VideoDAO` para acessar a tabela no banco de dados
-- Elaboração das classe modelo `Video` com as informações: id, titulo, descrição, url. 
+- Elaboração da classe modelo `Video` com as informações: id, titulo, descrição, url. 
     - Classes `DTO` para mapear as propriedades da classe modelo. Nessas classes foi usado *`Data Annotations`* para determinar as propriedades como obrigatórias e fazer as validações.
-        - Classe `VideoPorfile` para fazer o mapeamento entre a classe modelo e as classes `DTO` por meio do `AutoMapper`.
+        - Classe `VideoProfile` para fazer o mapeamento entre a classe modelo e as classes `DTO` por meio do `AutoMapper`.
 - Controller com as rotas de requisição: 
     - Rotas GET:
         - Exibir todos os vídeos
@@ -56,3 +62,25 @@ API REST para cadastro de vídeos, separados por categoria e que seja necessári
     - DELETE - deletar vídeo pelo id
 
 #### Semana 2
+- Classes modelo `Categoria` e `DTO` com as informações: id, titulo e cor.
+- Armazenar no banco de dados informações sobre as categorias.
+    - Classe `CategoriaDAO` para acesso ao bando de dados.
+- Adicionar camada de serviço.
+- Implementar relação entre vídeos e categorias, cada vídeo uma categoria.
+    - Incluir campo categoriaId no modelo video;
+- Adicionar à controller de `Videos`:
+    - Buscar vídeos via `query parameters` - ```/videos/?search=termoBuscado```
+- Controller para `Categorias` com as rotas de requisição: 
+    - Rotas GET:
+        - Exibir todos as categorias
+        - `id` como endpoit para exibir uma única categoria.
+        - Exibir vídeos por categoria ```categorias/:id/videos/```
+    - POST: criar categoria.
+    - PUT - atualizar todas as informações
+    - PATCH - atualização parcial
+    - DELETE - deletar categoria pelo id.
+        - Caso a categoria possua vídeos, estes passam a ser da categoria 1.  
+
+#### Semana 3 e 4
+- Adicionar paginação nas requisições de vídeos e categorias.
+- Adicionar método de autenticação.
