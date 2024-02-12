@@ -120,31 +120,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
-
-/*
-{
-    "Username": "daniel",
-    "DataNascimento": "1900-01-01",
-    "Password": "Senha123!",
-    "RePassword": "Senha123!"
-},
-{
-    "Username": "romulo",
-    "Email": "romulo@email.com",
-    "Password": "Senha123@",
-    "RePassword": "Senha123@"
-},
-{
-    "Username": "pedro",
-    "Email": "pedro@email.com",
-    "Password": "Teste789!",
-    "RePassword": "Teste789!"
-},
-{
-    "Username": "Maria",
-    "Email": "maria@email.com",
-    "Password": "Teste000*",
-    "RePassword": "Teste000*"
-}
-*/

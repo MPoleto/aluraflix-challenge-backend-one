@@ -4,7 +4,6 @@ namespace aluraflix_backend.Services.IServices;
     public interface IVideoService
     {
         IEnumerable<ReadVideoDTO> ExibirVideos(int page);
-        //IEnumerable<ReadVideoDTO> ExibirPrimeiraPaginaDeVideos();
         IEnumerable<ReadVideoDTO> ExibirPorTitulo(string titulo);
         ReadVideoDTO ExibirVideoPorId(int id);
         ReadVideoDTO CriarVideo(CreateVideoDTO videoDTO);
